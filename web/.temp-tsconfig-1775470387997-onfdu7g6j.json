@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": false,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src/config.ts",
+    "src/types/index.ts",
+    "src/lib/utils.ts",
+    "src/lib/stacks/api.ts",
+    "src/lib/contracts/marketplace.ts",
+    "src/lib/contracts/token.ts",
+    "src/lib/contracts/pool.ts",
+    "src/lib/context/WalletContext.tsx",
+    "src/hooks/useContract.ts",
+    "src/hooks/useNFTData.ts",
+    "src/components/common/Navbar.tsx",
+    "src/components/common/Footer.tsx",
+    "src/components/wallet/WalletButton.tsx",
+    "src/components/marketplace/NFTCard.tsx",
+    "src/app/layout.tsx",
+    "src/app/page.tsx",
+    "src/app/marketplace/page.tsx",
+    "src/app/dashboard/page.tsx",
+    "src/app/liquidity/page.tsx",
+    "src/app/admin/page.tsx",
+    "next.config.ts",
+    "src/global.d.ts",
+    "/home/admin/Desktop/dev/flyraos/web/**/*.d.ts"
+  ]
+}
