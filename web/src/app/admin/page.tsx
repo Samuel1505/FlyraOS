@@ -19,7 +19,7 @@ import { explorerTxLink, formatFLYRA } from '@/lib/utils';
 import { FLYRA_DECIMALS } from '@/config';
 
 export default function AdminPage() {
-  const { principal, isConnected, connect } = useWallet();
+  const { principal, isConnected, connectWallet } = useWallet();
   const { floorSweep, burnFLYRA, isLoading, txStatus, txId } = useContract();
 
   const isAdmin = isConnected && principal === DEPLOYER_PRINCIPAL;
@@ -85,7 +85,7 @@ export default function AdminPage() {
           Admin panel requires a connected wallet. Only the deployer principal has
           access to these controls.
         </p>
-        <button className="btn-primary" onClick={connect}>
+        <button className="btn-primary" onClick={connectWallet}>
           Connect Wallet
         </button>
       </div>
