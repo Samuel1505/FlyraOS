@@ -17,9 +17,9 @@ const FEATURES = [
     description:
       'Browse and purchase floor-swept NFTs listed directly on-chain via the SIP-009 standard.',
     href: '/marketplace',
-    color: 'var(--primary)',
-    bgColor: 'rgba(7,84,209,0.12)',
-    borderColor: 'rgba(7,84,209,0.25)',
+    accentColor: 'var(--accent)',
+    accentDim: 'var(--accent-dim)',
+    accentBorder: 'var(--accent-border)',
   },
   {
     icon: BarChart2,
@@ -27,9 +27,9 @@ const FEATURES = [
     description:
       'Monitor floor price history, protocol volume, and FLYRA burn mechanics in real time.',
     href: '/dashboard',
-    color: 'var(--accent)',
-    bgColor: 'rgba(16,185,129,0.12)',
-    borderColor: 'rgba(16,185,129,0.25)',
+    accentColor: 'var(--success)',
+    accentDim: 'var(--success-dim)',
+    accentBorder: 'var(--success-border)',
   },
   {
     icon: Droplets,
@@ -37,9 +37,9 @@ const FEATURES = [
     description:
       'Track STX/FLYRA XYK pool reserves, fee rates, and LP performance metrics.',
     href: '/liquidity',
-    color: '#8b5cf6',
-    bgColor: 'rgba(139,92,246,0.12)',
-    borderColor: 'rgba(139,92,246,0.25)',
+    accentColor: '#60A5FA',
+    accentDim: 'rgba(96,165,250,0.10)',
+    accentBorder: 'rgba(96,165,250,0.25)',
   },
   {
     icon: Shield,
@@ -47,99 +47,64 @@ const FEATURES = [
     description:
       'Deployer-gated floor sweeps, premium relisting, and FLYRA token burn controls.',
     href: '/admin',
-    color: 'var(--warning)',
-    bgColor: 'rgba(245,158,11,0.12)',
-    borderColor: 'rgba(245,158,11,0.25)',
+    accentColor: 'var(--warning)',
+    accentDim: 'var(--warning-dim)',
+    accentBorder: 'var(--warning-border)',
   },
 ];
 
 const STATS = [
-  { label: 'Total Listings', value: '247', icon: Layers },
-  { label: 'Floor Price', value: '8 STX', icon: TrendingUp },
-  { label: 'FLYRA Burned', value: '4.2M', icon: Flame },
-  { label: 'Total Volume', value: '1,340 STX', icon: BarChart2 },
+  { label: 'Total Listings', value: '247',       icon: Layers    },
+  { label: 'Floor Price',    value: '8 STX',      icon: TrendingUp },
+  { label: 'FLYRA Burned',   value: '4.2M',       icon: Flame     },
+  { label: 'Total Volume',   value: '1,340 STX',  icon: BarChart2 },
 ];
 
 export default function Home() {
   return (
     <div style={{ background: 'var(--background)' }}>
+
       {/* ── Hero ── */}
       <section
         style={{
-          position: 'relative',
-          minHeight: '85vh',
+          minHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
-          padding: '4rem 1.5rem',
-          overflow: 'hidden',
+          padding: '5rem 1.5rem',
+          borderBottom: '1px solid var(--border-subtle)',
         }}
       >
-        {/* Background glow orbs */}
-        <div
-          aria-hidden
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            zIndex: 0,
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              top: '10%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '600px',
-              height: '600px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(7,84,209,0.15) 0%, transparent 70%)',
-              filter: 'blur(40px)',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '10%',
-              right: '15%',
-              width: '300px',
-              height: '300px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%)',
-              filter: 'blur(30px)',
-            }}
-          />
-        </div>
+        <div style={{ maxWidth: '680px', width: '100%' }}>
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '720px' }}>
-          {/* Badge */}
+          {/* Status badge */}
           <div
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.3rem 0.875rem',
-              background: 'var(--primary-dim)',
-              border: '1px solid rgba(7,84,209,0.3)',
-              borderRadius: '9999px',
-              fontSize: '0.75rem',
+              gap: '0.5rem',
+              padding: '0.25rem 0.75rem',
+              background: 'var(--bg-elevated)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: '0.68rem',
               fontWeight: 600,
-              color: '#60a5fa',
-              letterSpacing: '0.04em',
+              color: 'var(--text-muted)',
+              letterSpacing: '0.09em',
               textTransform: 'uppercase',
-              marginBottom: '2rem',
+              marginBottom: '2.5rem',
             }}
           >
             <span
+              aria-hidden
               style={{
-                width: '6px',
-                height: '6px',
+                width: '5px',
+                height: '5px',
                 borderRadius: '50%',
-                background: 'var(--primary)',
-                animation: 'pulse 2s infinite',
+                background: 'var(--success)',
+                animation: 'pulse-dot 2s ease-in-out infinite',
               }}
             />
             Live on Stacks Testnet
@@ -147,49 +112,41 @@ export default function Home() {
 
           <h1
             style={{
-              fontSize: 'clamp(2.25rem, 6vw, 4rem)',
+              fontSize: 'clamp(2rem, 5.5vw, 3.75rem)',
               fontWeight: 800,
-              letterSpacing: '-0.035em',
-              lineHeight: 1.1,
+              letterSpacing: '-0.04em',
+              lineHeight: 1.05,
               color: 'var(--foreground)',
               marginBottom: '1.5rem',
             }}
           >
-            The NFT Treasury{' '}
-            <span
-              style={{
-                background: 'linear-gradient(135deg, #0754d1, #10b981)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              Protocol
-            </span>
+            The NFT Treasury
+            <br />
+            <span style={{ color: 'var(--accent)' }}>Protocol</span>
           </h1>
 
           <p
             style={{
-              fontSize: '1.125rem',
-              lineHeight: 1.7,
+              fontSize: '1rem',
+              lineHeight: 1.75,
               color: 'var(--text-secondary)',
               marginBottom: '2.5rem',
-              maxWidth: '560px',
+              maxWidth: '520px',
               margin: '0 auto 2.5rem',
             }}
           >
-            FlyraOS is a professional-grade NFT treasury protocol on Stacks. Floor
-            sweep, auto-relist, and FLYRA token burns drive sustainable protocol value.
+            FlyraOS is a professional-grade NFT treasury protocol on Stacks.
+            Floor sweep, auto-relist, and FLYRA token burns drive sustainable protocol value.
           </p>
 
-          <div style={{ display: 'flex', gap: '0.875rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/marketplace" className="btn-primary hero-cta-primary">
-              <ShoppingBag size={16} />
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/marketplace" className="btn-primary" style={{ padding: '0.625rem 1.5rem' }}>
+              <ShoppingBag size={15} />
               Browse Marketplace
-              <ArrowRight size={15} />
+              <ArrowRight size={14} style={{ marginLeft: '0.125rem' }} />
             </Link>
-            <Link href="/dashboard" className="btn-outline hero-cta-outline">
-              <BarChart2 size={16} />
+            <Link href="/dashboard" className="btn-outline" style={{ padding: '0.625rem 1.5rem' }}>
+              <BarChart2 size={15} />
               View Dashboard
             </Link>
           </div>
@@ -199,10 +156,9 @@ export default function Home() {
       {/* ── Stats Bar ── */}
       <section
         style={{
-          borderTop: '1px solid var(--border-subtle)',
-          borderBottom: '1px solid var(--border-subtle)',
           background: 'var(--bg-surface)',
-          padding: '1.25rem 1.5rem',
+          borderBottom: '1px solid var(--border-subtle)',
+          padding: '1rem 1.5rem',
         }}
       >
         <div
@@ -211,33 +167,45 @@ export default function Home() {
             margin: '0 auto',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-            gap: '1rem',
+            gap: '0',
           }}
         >
-          {STATS.map(({ label, value, icon: Icon }) => (
+          {STATS.map(({ label, value, icon: Icon }, idx) => (
             <div
               key={label}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.875rem',
+                padding: '0.875rem 1.25rem',
+                borderRight: idx < STATS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+              }}
             >
               <span
+                aria-hidden
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '32px',
-                  height: '32px',
+                  width: '30px',
+                  height: '30px',
                   background: 'var(--bg-elevated)',
                   border: '1px solid var(--border-default)',
-                  borderRadius: '7px',
+                  borderRadius: 'var(--radius-md)',
                   color: 'var(--accent)',
                   flexShrink: 0,
                 }}
               >
-                <Icon size={14} />
+                <Icon size={13} />
               </span>
               <div>
-                <p className="label-meta">{label}</p>
-                <p style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--foreground)' }}>{value}</p>
+                <p className="label-meta" style={{ marginBottom: '0.2rem' }}>{label}</p>
+                <p
+                  className="mono-data"
+                  style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--foreground)' }}
+                >
+                  {value}
+                </p>
               </div>
             </div>
           ))}
@@ -246,12 +214,19 @@ export default function Home() {
 
       {/* ── Features Grid ── */}
       <section style={{ padding: '5rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <p className="label-meta" style={{ marginBottom: '0.75rem' }}>Protocol Features</p>
-          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontWeight: 700, letterSpacing: '-0.025em' }}>
-            Everything you need
+        <div style={{ marginBottom: '3rem' }}>
+          <p className="label-meta" style={{ marginBottom: '0.625rem' }}>Protocol Modules</p>
+          <h2
+            style={{
+              fontSize: 'clamp(1.375rem, 2.5vw, 2rem)',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              marginBottom: '0.625rem',
+            }}
+          >
+            Built for serious operators
           </h2>
-          <p style={{ color: 'var(--text-muted)', marginTop: '0.75rem', maxWidth: '480px', margin: '0.75rem auto 0' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '440px' }}>
             A full-stack protocol with on-chain marketplace, liquidity pool, and FLYRA token mechanics.
           </p>
         </div>
@@ -260,36 +235,47 @@ export default function Home() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1px',
             background: 'var(--border-subtle)',
             border: '1px solid var(--border-subtle)',
             borderRadius: 'var(--radius-lg)',
             overflow: 'hidden',
+            gap: '1px',
           }}
         >
-          {FEATURES.map(({ icon: Icon, title, description, href, color, bgColor, borderColor }) => (
+          {FEATURES.map(({ icon: Icon, title, description, href, accentColor, accentDim, accentBorder }) => (
             <Link key={href} href={href} className="feature-card">
               <span
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '10px',
-                  background: bgColor,
-                  border: `1px solid ${borderColor}`,
-                  marginBottom: '1rem',
-                  color,
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: 'var(--radius-md)',
+                  background: accentDim,
+                  border: `1px solid ${accentBorder}`,
+                  marginBottom: '1.125rem',
+                  color: accentColor,
+                  flexShrink: 0,
                 }}
               >
-                <Icon size={18} />
+                <Icon size={16} />
               </span>
-              <h3 style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <h3
+                style={{
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  marginBottom: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  letterSpacing: '-0.015em',
+                }}
+              >
                 {title}
-                <ArrowRight size={14} style={{ color: 'var(--text-muted)' }} />
+                <ArrowRight size={13} style={{ color: 'var(--text-muted)', marginLeft: 'auto' }} />
               </h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
                 {description}
               </p>
             </Link>
@@ -301,28 +287,34 @@ export default function Home() {
       <section
         style={{
           padding: '4rem 1.5rem',
-          textAlign: 'center',
           borderTop: '1px solid var(--border-subtle)',
+          background: 'var(--bg-surface)',
         }}
       >
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '1rem', letterSpacing: '-0.025em' }}>
-          Ready to start trading?
-        </h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
-          Connect your Stacks wallet and join the FlyraOS protocol.
-        </p>
-        <Link href="/marketplace" className="btn-accent" style={{ padding: '0.875rem 2rem', fontSize: '1rem' }}>
-          <ShoppingBag size={16} />
-          Open Marketplace
-        </Link>
+        <div style={{ maxWidth: '560px', margin: '0 auto', textAlign: 'center' }}>
+          <h2
+            style={{
+              fontSize: '1.5rem',
+              fontWeight: 700,
+              marginBottom: '0.875rem',
+              letterSpacing: '-0.03em',
+            }}
+          >
+            Ready to start trading?
+          </h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.9rem' }}>
+            Connect your Stacks wallet and join the FlyraOS protocol.
+          </p>
+          <Link
+            href="/marketplace"
+            className="btn-primary"
+            style={{ padding: '0.75rem 2rem', fontSize: '0.9rem' }}
+          >
+            <ShoppingBag size={15} />
+            Open Marketplace
+          </Link>
+        </div>
       </section>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
     </div>
   );
 }
