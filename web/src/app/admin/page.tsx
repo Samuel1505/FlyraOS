@@ -24,11 +24,8 @@ export default function AdminPage() {
 
   const isAdmin = isConnected && principal === DEPLOYER_PRINCIPAL;
 
-  // Floor Sweep state
   const [sweepTokenId, setSweepTokenId] = useState('');
-
-  // Burn state
-  const [burnAmount, setBurnAmount] = useState('');
+  const [burnAmount,   setBurnAmount]   = useState('');
 
   async function handleFloorSweep(e: React.FormEvent) {
     e.preventDefault();
@@ -36,9 +33,7 @@ export default function AdminPage() {
     try {
       await floorSweep(NFT_MARKETPLACE_ADDRESS + '.nft-marketplace', parseInt(sweepTokenId));
       setSweepTokenId('');
-    } catch {
-      // handled by hook
-    }
+    } catch { /* handled by hook */ }
   }
 
   async function handleBurn(e: React.FormEvent) {
@@ -47,19 +42,18 @@ export default function AdminPage() {
     try {
       await burnFLYRA(parseFloat(burnAmount) * FLYRA_DECIMALS);
       setBurnAmount('');
-    } catch {
-      // handled by hook
-    }
+    } catch { /* handled by hook */ }
   }
 
+  /* ── Not connected ── */
   if (!isConnected) {
     return (
       <div
         style={{
-          maxWidth: '480px',
-          margin: '6rem auto',
-          textAlign: 'center',
+          maxWidth: '400px',
+          margin: '7rem auto',
           padding: '0 1.5rem',
+          textAlign: 'center',
         }}
       >
         <span
@@ -67,39 +61,48 @@ export default function AdminPage() {
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '56px',
-            height: '56px',
-            borderRadius: '14px',
-            background: 'rgba(245,158,11,0.12)',
-            border: '1px solid rgba(245,158,11,0.25)',
+            width: '48px',
+            height: '48px',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--warning-dim)',
+            border: '1px solid var(--warning-border)',
             color: 'var(--warning)',
             marginBottom: '1.25rem',
           }}
+          aria-hidden
         >
-          <Lock size={24} />
+          <Lock size={20} />
         </span>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+        <h1
+          style={{
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            marginBottom: '0.625rem',
+            letterSpacing: '-0.025em',
+          }}
+        >
           Access Restricted
         </h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.6 }}>
-          Admin panel requires a connected wallet. Only the deployer principal has
-          access to these controls.
+        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.65, fontSize: '0.875rem' }}>
+          Admin panel requires a connected wallet. Only the deployer principal has access to these controls.
         </p>
         <button className="btn-primary" onClick={connectWallet}>
+          <Shield size={14} />
           Connect Wallet
         </button>
       </div>
     );
   }
 
+  /* ── Wrong wallet ── */
   if (!isAdmin) {
     return (
       <div
         style={{
-          maxWidth: '480px',
-          margin: '6rem auto',
-          textAlign: 'center',
+          maxWidth: '400px',
+          margin: '7rem auto',
           padding: '0 1.5rem',
+          textAlign: 'center',
         }}
       >
         <span
@@ -107,33 +110,42 @@ export default function AdminPage() {
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '56px',
-            height: '56px',
-            borderRadius: '14px',
-            background: 'rgba(239,68,68,0.12)',
-            border: '1px solid rgba(239,68,68,0.25)',
+            width: '48px',
+            height: '48px',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--destructive-dim)',
+            border: '1px solid var(--destructive-border)',
             color: 'var(--destructive)',
             marginBottom: '1.25rem',
           }}
+          aria-hidden
         >
-          <Shield size={24} />
+          <Shield size={20} />
         </span>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+        <h1
+          style={{
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            marginBottom: '0.625rem',
+            letterSpacing: '-0.025em',
+          }}
+        >
           Unauthorized
         </h1>
-        <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--text-muted)', lineHeight: 1.65, fontSize: '0.875rem', marginBottom: '1.25rem' }}>
           Admin only — connect with the deployer wallet to access these controls.
         </p>
         <p
           style={{
-            marginTop: '1rem',
-            padding: '0.5rem 0.875rem',
-            background: 'var(--bg-elevated)',
-            borderRadius: '6px',
+            padding: '0.625rem 0.875rem',
+            background: 'var(--bg-inset)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)',
             fontFamily: 'var(--font-mono)',
-            fontSize: '0.75rem',
+            fontSize: '0.72rem',
             color: 'var(--text-muted)',
             wordBreak: 'break-all',
+            textAlign: 'left',
           }}
         >
           {principal}
@@ -142,86 +154,93 @@ export default function AdminPage() {
     );
   }
 
+  /* ── Admin view ── */
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem 1.5rem' }}>
-      {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.4rem' }}>
-          <p className="label-meta">Admin</p>
-          <span
-            className="badge"
+
+      {/* Page Header */}
+      <div
+        style={{
+          paddingBottom: '1.5rem',
+          marginBottom: '1.5rem',
+          borderBottom: '1px solid var(--border-subtle)',
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '1rem',
+        }}
+      >
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '0.375rem' }}>
+            <p className="label-meta">Admin</p>
+            <span
+              className="badge"
+              style={{
+                background: 'var(--success-dim)',
+                color: 'var(--success)',
+                border: '1px solid var(--success-border)',
+              }}
+            >
+              Deployer Access
+            </span>
+          </div>
+          <h1
             style={{
-              background: 'var(--accent-dim)',
-              color: 'var(--accent)',
-              border: '1px solid rgba(16,185,129,0.25)',
+              fontSize: '1.625rem',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              marginBottom: '0.375rem',
             }}
           >
-            ✓ Deployer Access
-          </span>
+            Admin Panel
+          </h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+            Deployer-gated controls for floor sweeps, relisting, and token burns.
+          </p>
         </div>
-        <h1 style={{ fontSize: '1.875rem', fontWeight: 700, letterSpacing: '-0.025em', marginBottom: '0.5rem' }}>
-          Admin Panel
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Deployer-gated controls for floor sweeps, relisting, and token burns.
-        </p>
       </div>
 
       {/* Tx Status Banner */}
       {txStatus !== 'idle' && (
         <div
+          className="status-banner"
           style={{
-            padding: '0.875rem 1.25rem',
             marginBottom: '1.5rem',
-            borderRadius: 'var(--radius-sm)',
-            border: '1px solid',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            fontSize: '0.875rem',
             ...(txStatus === 'success'
-              ? {
-                  background: 'var(--accent-dim)',
-                  borderColor: 'rgba(16,185,129,0.3)',
-                  color: 'var(--accent)',
-                }
+              ? { background: 'var(--success-dim)',     borderColor: 'var(--success-border)',     color: 'var(--success)'     }
               : txStatus === 'error'
-              ? {
-                  background: 'rgba(239,68,68,0.1)',
-                  borderColor: 'rgba(239,68,68,0.3)',
-                  color: 'var(--destructive)',
-                }
-              : {
-                  background: 'var(--primary-dim)',
-                  borderColor: 'rgba(7,84,209,0.3)',
-                  color: '#60a5fa',
-                }),
+              ? { background: 'var(--destructive-dim)', borderColor: 'var(--destructive-border)', color: 'var(--destructive)' }
+              : { background: 'var(--accent-dim)',      borderColor: 'var(--accent-border)',      color: 'var(--accent)'      }),
           }}
+          role="status"
+          aria-live="polite"
         >
           {txStatus === 'success' ? (
-            <CheckCircle size={15} />
+            <CheckCircle size={14} aria-hidden />
           ) : txStatus === 'error' ? (
-            <XCircle size={15} />
+            <XCircle size={14} aria-hidden />
           ) : (
-            <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} />
+            <Loader2 size={14} aria-hidden style={{ animation: 'spin 1s linear infinite' }} />
           )}
-          {txStatus === 'success' && txId ? (
-            <span>
-              Transaction submitted.{' '}
-              <a
-                href={explorerTxLink(txId)}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem', textDecoration: 'underline' }}
-              >
-                View on Explorer <ExternalLink size={11} />
-              </a>
-            </span>
-          ) : txStatus === 'error' ? (
-            'Transaction failed. Please try again.'
-          ) : (
-            'Transaction pending — approve in your wallet…'
-          )}
+          <span style={{ fontSize: '0.8rem' }}>
+            {txStatus === 'success' && txId ? (
+              <>
+                Transaction submitted.{' '}
+                <a
+                  href={explorerTxLink(txId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem', textDecoration: 'underline' }}
+                >
+                  View on Explorer <ExternalLink size={10} />
+                </a>
+              </>
+            ) : txStatus === 'error'
+              ? 'Transaction failed. Please try again.'
+              : 'Transaction pending — approve in your wallet…'
+            }
+          </span>
         </div>
       )}
 
@@ -229,41 +248,53 @@ export default function AdminPage() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '1rem',
         }}
       >
-        {/* Floor Sweep */}
+        {/* ── Floor Sweep ── */}
         <div className="card" style={{ padding: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
             <span
+              aria-hidden
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '36px',
-                height: '36px',
-                borderRadius: '8px',
-                background: 'rgba(7,84,209,0.12)',
-                border: '1px solid rgba(7,84,209,0.25)',
-                color: 'var(--primary)',
+                width: '32px',
+                height: '32px',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--accent-dim)',
+                border: '1px solid var(--accent-border)',
+                color: 'var(--accent)',
               }}
             >
-              <ShoppingBag size={16} />
+              <ShoppingBag size={14} />
             </span>
             <div>
-              <h2 style={{ fontWeight: 600, fontSize: '0.95rem' }}>Floor Sweep</h2>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              <h2 style={{ fontWeight: 600, fontSize: '0.875rem', letterSpacing: '-0.015em' }}>
+                Floor Sweep
+              </h2>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.125rem' }}>
                 Sweep an NFT and relist at premium
               </p>
             </div>
           </div>
-          <form onSubmit={handleFloorSweep} style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+
+          <form
+            onSubmit={handleFloorSweep}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          >
             <div>
-              <label className="label-meta" style={{ display: 'block', marginBottom: '0.4rem' }}>
+              <label
+                htmlFor="sweep-token-id"
+                className="label-meta"
+                style={{ display: 'block', marginBottom: '0.375rem' }}
+              >
                 Token ID
               </label>
               <input
+                id="sweep-token-id"
                 className="input-field"
                 type="number"
                 min="1"
@@ -274,15 +305,25 @@ export default function AdminPage() {
               />
             </div>
             <div>
-              <label className="label-meta" style={{ display: 'block', marginBottom: '0.4rem' }}>
+              <label
+                htmlFor="sweep-contract"
+                className="label-meta"
+                style={{ display: 'block', marginBottom: '0.375rem' }}
+              >
                 NFT Contract
               </label>
               <input
+                id="sweep-contract"
                 className="input-field"
                 type="text"
                 value={`${NFT_MARKETPLACE_ADDRESS}.nft-marketplace`}
                 readOnly
-                style={{ opacity: 0.6, cursor: 'not-allowed', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}
+                style={{
+                  opacity: 0.55,
+                  cursor: 'not-allowed',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                }}
               />
             </div>
             <button
@@ -291,43 +332,118 @@ export default function AdminPage() {
               disabled={isLoading || !sweepTokenId}
               style={{ marginTop: '0.25rem' }}
             >
-              {isLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <ShoppingBag size={14} />}
+              {isLoading
+                ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} />
+                : <ShoppingBag size={13} />
+              }
               Execute Floor Sweep
             </button>
           </form>
         </div>
 
-        {/* Burn Tokens */}
+        {/* ── Burn FLYRA ── */}
         <div className="card" style={{ padding: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1.25rem' }}>
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '36px',
-                height: '36px',
-                borderRadius: '8px',
-                background: 'rgba(239,68,68,0.12)',
-                border: '1px solid rgba(239,68,68,0.25)',
-                color: 'var(--destructive)',
-              }}
-            >
-              <Flame size={16} />
-            </span>
-            <div>
-              <h2 style={{ fontWeight: 600, fontSize: '0.95rem' }}>Burn FLYRA</h2>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                Permanently reduce circulating supply
-              </p>
+          {/* Burn header with big counter */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+              <span
+                aria-hidden
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'var(--destructive-dim)',
+                  border: '1px solid var(--destructive-border)',
+                  color: 'var(--destructive)',
+                }}
+              >
+                <Flame size={14} />
+              </span>
+              <div>
+                <h2 style={{ fontWeight: 600, fontSize: '0.875rem', letterSpacing: '-0.015em' }}>
+                  Burn FLYRA
+                </h2>
+                <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.125rem' }}>
+                  Permanently reduce circulating supply
+                </p>
+              </div>
             </div>
+
+            {/* Prominent burn preview */}
+            {burnAmount ? (
+              <div
+                style={{
+                  padding: '1rem',
+                  background: 'var(--bg-inset)',
+                  border: '1px solid var(--destructive-border)',
+                  borderRadius: 'var(--radius-md)',
+                  textAlign: 'center',
+                }}
+              >
+                <p className="label-meta" style={{ marginBottom: '0.375rem' }}>To be destroyed</p>
+                <p
+                  className="mono-data"
+                  style={{
+                    fontSize: '1.75rem',
+                    fontWeight: 800,
+                    color: 'var(--destructive)',
+                    letterSpacing: '-0.04em',
+                    lineHeight: 1,
+                  }}
+                >
+                  {formatFLYRA(parseFloat(burnAmount) * FLYRA_DECIMALS)}
+                </p>
+                <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '0.375rem' }}>
+                  FLYRA ({(parseFloat(burnAmount) * FLYRA_DECIMALS).toLocaleString()} uFLYRA)
+                </p>
+              </div>
+            ) : (
+              <div
+                style={{
+                  padding: '1rem',
+                  background: 'var(--bg-inset)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-md)',
+                  textAlign: 'center',
+                }}
+              >
+                <p className="label-meta" style={{ marginBottom: '0.375rem' }}>To be destroyed</p>
+                <p
+                  className="mono-data"
+                  style={{
+                    fontSize: '1.75rem',
+                    fontWeight: 800,
+                    color: 'var(--text-muted)',
+                    letterSpacing: '-0.04em',
+                    lineHeight: 1,
+                  }}
+                >
+                  —
+                </p>
+                <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '0.375rem' }}>
+                  Enter an amount below
+                </p>
+              </div>
+            )}
           </div>
-          <form onSubmit={handleBurn} style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+
+          <form
+            onSubmit={handleBurn}
+            style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}
+          >
             <div>
-              <label className="label-meta" style={{ display: 'block', marginBottom: '0.4rem' }}>
+              <label
+                htmlFor="burn-amount"
+                className="label-meta"
+                style={{ display: 'block', marginBottom: '0.375rem' }}
+              >
                 Amount (FLYRA)
               </label>
               <input
+                id="burn-amount"
                 className="input-field"
                 type="number"
                 min="0.000001"
@@ -337,114 +453,118 @@ export default function AdminPage() {
                 onChange={(e) => setBurnAmount(e.target.value)}
                 required
               />
-              {burnAmount && (
-                <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
-                  ≈ {formatFLYRA(parseFloat(burnAmount) * FLYRA_DECIMALS)} FLYRA (
-                  {parseFloat(burnAmount) * FLYRA_DECIMALS} uFLYRA)
-                </p>
-              )}
             </div>
 
-            {/* Warning */}
+            {/* Irreversible warning */}
             <div
               style={{
-                padding: '0.75rem',
-                background: 'rgba(239,68,68,0.08)',
-                border: '1px solid rgba(239,68,68,0.2)',
-                borderRadius: '6px',
-                fontSize: '0.75rem',
-                color: 'rgba(239,68,68,0.9)',
+                padding: '0.625rem 0.75rem',
+                background: 'var(--destructive-dim)',
+                border: '1px solid var(--destructive-border)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '0.72rem',
+                color: 'var(--destructive)',
                 display: 'flex',
                 gap: '0.5rem',
+                alignItems: 'flex-start',
               }}
             >
-              <XCircle size={12} style={{ flexShrink: 0, marginTop: '1px' }} />
+              <XCircle size={12} style={{ flexShrink: 0, marginTop: '1px' }} aria-hidden />
               Burns are irreversible. Tokens will be permanently destroyed.
             </div>
 
             <button
               type="submit"
+              className="btn-danger"
               disabled={isLoading || !burnAmount}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                padding: '0.5rem 1.25rem',
-                background: isLoading || !burnAmount ? 'rgba(239,68,68,0.4)' : 'var(--destructive)',
-                color: '#fff',
-                borderRadius: 'var(--radius-sm)',
-                fontWeight: 500,
-                fontSize: '0.875rem',
-                border: 'none',
-                cursor: isLoading || !burnAmount ? 'not-allowed' : 'pointer',
-                transition: 'opacity 0.15s',
-                marginTop: '0.25rem',
-              }}
             >
-              {isLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Flame size={14} />}
+              {isLoading
+                ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} />
+                : <Flame size={13} />
+              }
               Burn Tokens
             </button>
           </form>
         </div>
 
-        {/* Relist Info */}
+        {/* ── Premium Relist Info ── */}
         <div className="card" style={{ padding: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
             <span
+              aria-hidden
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '36px',
-                height: '36px',
-                borderRadius: '8px',
-                background: 'rgba(16,185,129,0.12)',
-                border: '1px solid rgba(16,185,129,0.25)',
-                color: 'var(--accent)',
+                width: '32px',
+                height: '32px',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--success-dim)',
+                border: '1px solid var(--success-border)',
+                color: 'var(--success)',
               }}
             >
-              <RefreshCw size={16} />
+              <RefreshCw size={14} />
             </span>
             <div>
-              <h2 style={{ fontWeight: 600, fontSize: '0.95rem' }}>Premium Relist</h2>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              <h2 style={{ fontWeight: 600, fontSize: '0.875rem', letterSpacing: '-0.015em' }}>
+                Premium Relist
+              </h2>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.125rem' }}>
                 Auto-relisting via sweep-and-relist
               </p>
             </div>
           </div>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>
-            The <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--accent)' }}>sweep-and-relist</code>{' '}
-            function in the strategy token contract automatically handles floor sweeping
-            and premium relisting in a single transaction.
-          </p>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>
-            Use the{' '}
-            <strong style={{ color: 'var(--foreground)' }}>Floor Sweep</strong> action
-            above to trigger this flow — the contract handles the relist logic
-            internally.
-          </p>
-          <div
+
+          <p
             style={{
-              marginTop: '1.25rem',
-              padding: '0.75rem',
-              background: 'var(--bg-elevated)',
-              borderRadius: '6px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
+              fontSize: '0.8rem',
               color: 'var(--text-muted)',
+              lineHeight: 1.7,
+              marginBottom: '1rem',
             }}
           >
-            (define-public (sweep-and-relist (nft-contract ...) (token-id uint)))
+            The{' '}
+            <code
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                color: 'var(--success)',
+                background: 'var(--success-dim)',
+                padding: '0.1rem 0.3rem',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px solid var(--success-border)',
+              }}
+            >
+              sweep-and-relist
+            </code>{' '}
+            function in the strategy token contract automatically handles floor sweeping and premium
+            relisting in a single atomic transaction.
+          </p>
+
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+            Use the <strong style={{ color: 'var(--foreground)', fontWeight: 600 }}>Floor Sweep</strong> action
+            above to trigger this flow — the contract handles the relist logic internally.
+          </p>
+
+          <div
+            style={{
+              padding: '0.75rem 1rem',
+              background: 'var(--bg-inset)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-md)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
+              color: 'var(--text-muted)',
+              lineHeight: 1.6,
+            }}
+          >
+            (define-public (sweep-and-relist<br />
+            &nbsp;&nbsp;(nft-contract &lt;nft-trait&gt;)<br />
+            &nbsp;&nbsp;(token-id uint)))
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }
